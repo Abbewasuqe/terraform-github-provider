@@ -12,12 +12,13 @@ resource "github_repository" "terra-created" {
     has_issues = true
 }
 
-resource "github_branch_protection" "example" {
+resource "github_branch_protection" "protect" {
   repository_id = github_repository.terra-created.node_id
 
   pattern          = "main"
   enforce_admins   = true
   allows_deletions = true
+  allows_force_pushes = false
 }
 
 resource "github_repository_file" "gitignore" {
@@ -25,8 +26,8 @@ resource "github_repository_file" "gitignore" {
     file = ".gitignore"
     content = "**/*.tfstate"
     commit_message = "created by terraform"
-    commit_author = "terraform user"
-    commit_email = "terraform@example.com"
+    commit_author = "abbewasuqe"
+    commit_email = "abbe@abbe.com"
     overwrite_on_create = true
 }
 
