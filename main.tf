@@ -1,33 +1,12 @@
-provider "github" {
-  token = var.gh_token
+module "import" {
+    source = "./modules/repository/"
+    name = "demo-repository"
+    admin_teams = [ "mama" ]
 }
 
-resource "github_repository" "terra-created" {
-    name = "new-terra"
-    description = "awesom"
-
-    private = false
-    auto_init = true
-    has_projects = true
-    has_issues = true
+module "terraform-test-repo" {
+    source = "./modules/repository/"
+    name = "Terraform-test-repo"
+    admin_teams = [ "mama" ]
+    maintain_collaborators = [ "abbewasuqe1" ]
 }
-
-resource "github_branch_protection" "protect" {
-  repository_id = github_repository.terra-created.node_id
-
-  pattern          = "main"
-  enforce_admins   = true
-  allows_deletions = true
-  allows_force_pushes = false
-}
-
-resource "github_repository_file" "gitignore" {
-    repository = github_repository.terra-created.name
-    file = ".gitignore"
-    content = "**/*.tfstate"
-    commit_message = "created by terraform"
-    commit_author = "abbewasuqe"
-    commit_email = "abbe@abbe.com"
-    overwrite_on_create = true
-}
-
