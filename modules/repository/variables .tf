@@ -33,8 +33,6 @@ variable "archive_on_destroy" {
   default     = false
 }
 
-# INFO: https://github.com/github/gitignore
-# INFO: https://github.com/github/choosealicense.com/tree/gh-pages/_licenses
 variable "template" {
   description = <<EOF
   (Optional) Use a template repository, license or gitignore to create the repository.this resource. `template` block as defined below.
@@ -46,6 +44,7 @@ variable "template" {
   type        = any
   default     = {}
 }
+
 
 variable "features" {
   description = "(Optional) A list of enabled features on the repository. Available features: `ISSUES`, `PROJECTS`, `WIKI`."
