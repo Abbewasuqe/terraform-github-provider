@@ -12,7 +12,7 @@ variable "description" {
 variable "visibility" {
   description = "(Optional) Can be `public`, `private` or `internal`. `internal` visibility is only available if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+."
   type        = string
-  default     = "private"
+  default     = "public"
 }
 
 variable "is_template" {
@@ -163,4 +163,25 @@ variable "vulnerability_alerts" {
   description = "(Optional) Set to true to enable security alerts for vulnerable dependencies. Enabling requires alerts to be enabled on the owner level. GitHub enables the alerts on public repos but disables them on private repos by default."
   type        = bool
   default     = false
+}
+
+# Branch Protections
+
+variable "enforce_admins" {
+  description = "(Optional) Boolean, setting this to true enforces status checks for repository administrators."
+  type = bool
+  default = true
+}
+
+variable "allows_deletions" {
+  description = "(Optional) Boolean, setting this to true to allow the branch to be deleted."
+  type = bool
+  default = false
+}
+
+variable "allows_force_pushes" {
+  description = "(Optional) Boolean, setting this to true to allow force pushes on the branch."
+  type = bool
+  default = false
+  
 }
