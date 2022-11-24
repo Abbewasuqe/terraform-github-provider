@@ -1,4 +1,4 @@
-resource "github_branch_protection" "one" {
+resource "github_branch_protection" "main" {
   pattern = "main"
   repository_id = github_repository.this.node_id
   enforce_admins = var.enforce_admins
