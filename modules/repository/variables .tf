@@ -156,7 +156,7 @@ variable "branches" {
 variable "default_branch" {
   description = "(Optional) Set the default branch for the repository. Default is `main` branch."
   type        = string
-  default     = "main"
+  default     = [""]
 }
 
 variable "vulnerability_alerts" {
@@ -167,21 +167,41 @@ variable "vulnerability_alerts" {
 
 # Branch Protections
 
+variable "dismiss_review_users" {
+  type        = list(string)
+  default     = []
+  description = "the users which is granted the access to dismiss review on the protected branch"
+}
+
 variable "enforce_admins" {
-  description = "(Optional) Boolean, setting this to true enforces status checks for repository administrators."
-  type = bool
-  default = true
+  type        = string
+  default     = true
+  description = "whether the admin should be enforced to follow the branch protection rule or not"
 }
 
-variable "allows_deletions" {
-  description = "(Optional) Boolean, setting this to true to allow the branch to be deleted."
-  type = bool
-  default = false
+variable "force_pr_rebase" {
+  type        = string
+  default     = true
+  description = "whether PR should have up-to-date base branch (e.g. rebased) before they're merged"
 }
 
-variable "allows_force_pushes" {
-  description = "(Optional) Boolean, setting this to true to allow force pushes on the branch."
-  type = bool
-  default = false
-  
+variable "status_checks_contexts" {
+  type        = list(string)
+  default     = []
+  description = "The list of required status checks in order to merge into the protected branch, e.g. AWS CodeBuild ap-southeast-1 (<codebuild_project_name>)"
+}
+
+variable "require_conversation_resolution" {
+  default     = false
+  description = "Boolean, setting this to true requires all conversations on code must be resolved before a pull request can be merged."
+}
+
+variable "require_signed_commits" {
+  default     = false
+  description = "Boolean, setting this to true requires all commits to be signed with GPG."
+}
+
+variable "required_linear_history" {
+  default     = true
+  description = "(Optional) Boolean, setting this to true enforces a linear commit Git history, which prevents anyone from pushing merge commits to a branch."
 }

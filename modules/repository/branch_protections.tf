@@ -1,8 +1,8 @@
-resource "github_branch_protection" "main" {
-  pattern = "main"
-  repository_id = github_repository.this.node_id
-  enforce_admins = var.enforce_admins
-  depends_on = [github_branch.this]
-  allows_deletions = var.allows_deletions
-  allows_force_pushes = var.allows_deletions
+resource "github_branch_protection" "protected" {
+  pattern                         = github_repository.this.default_branch
+  repository_id                   = github_repository.this.node_id
+  enforce_admins                  = var.enforce_admins
+  require_conversation_resolution = var.require_conversation_resolution
+  require_signed_commits          = var.require_signed_commits
+  required_linear_history         = var.required_linear_history
 }
