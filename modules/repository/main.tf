@@ -6,7 +6,7 @@ resource "github_repository" "this" {
   archived           = var.archived
   archive_on_destroy = var.archive_on_destroy
 
-  auto_init          = try(var.template.init_readme, false)
+  auto_init          = try(var.template.init_readme, true)
 
 
   has_issues   = contains(var.features, "ISSUES")

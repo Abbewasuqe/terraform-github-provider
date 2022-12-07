@@ -1,5 +1,7 @@
 provider "github" {
+  
 }
+
 terraform {
   required_providers {
     github = {

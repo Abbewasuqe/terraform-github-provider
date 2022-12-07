@@ -63,7 +63,7 @@ variable "features" {
 variable "merge_strategies" {
   description = "(Optional) A list of allowed strategies for merging pull requests on the repository. Available strategies: `MERGE_COMMIT`, `SQUASH`, `REBASE`."
   type        = set(string)
-  default     = ["MERGE_COMMIT"]
+  default     = ["MERGE_COMMIT","SQUASH" ]
 
   validation {
     condition = alltrue([
@@ -156,7 +156,7 @@ variable "branches" {
 variable "default_branch" {
   description = "(Optional) Set the default branch for the repository. Default is `main` branch."
   type        = string
-  default     = [""]
+  #default     = []
 }
 
 variable "vulnerability_alerts" {
@@ -173,15 +173,15 @@ variable "dismiss_review_users" {
   description = "the users which is granted the access to dismiss review on the protected branch"
 }
 
-variable "enforce_admins" {
-  type        = string
-  default     = true
-  description = "whether the admin should be enforced to follow the branch protection rule or not"
-}
+#variable "enforce_admins" {
+#   type        = bool
+#   default     = false
+#   description = "whether the admin should be enforced to follow the branch protection rule or not"
+# }
 
 variable "force_pr_rebase" {
   type        = string
-  default     = true
+  default     = null
   description = "whether PR should have up-to-date base branch (e.g. rebased) before they're merged"
 }
 
@@ -201,7 +201,93 @@ variable "require_signed_commits" {
   description = "Boolean, setting this to true requires all commits to be signed with GPG."
 }
 
-variable "required_linear_history" {
-  default     = true
-  description = "(Optional) Boolean, setting this to true enforces a linear commit Git history, which prevents anyone from pushing merge commits to a branch."
+# variable "branch_protections" {
+#   type = list(object({
+#     pattern                 = string,
+#     enforce_admins         = optional(bool),
+#     require_signed_commits = optional(bool),
+#     required_linear_history = optional(bool),
+#     required_status_checks = object({
+#       strict   = bool
+#       contexts = list(string)
+#     })
+
+#     required_pull_request_reviews = object({
+#       dismiss_stale_reviews           = optional(bool),
+#       #dismissal_users                 = list(string),
+#       #dismissal_teams                 = list(string),
+#       require_code_owner_reviews      = bool,
+#       required_approving_review_count = number // NOTE: this must be 6 or less
+#     })
+
+#     # restrictions = object({
+#     #   users = list(string),
+#     #   teams = list(string)
+#     # })
+#    }))
+
+#   description = "List of Branch Protection Objects"
+#   default     = []
+# }
+
+
+
+variable "default_branch_protection_enabled" {
+  type        = bool
+  default     = false
+  description = "Set to `false` if you want to disable branch protection for default branch"
+}
+
+variable "default_branch_protection" {
+  type = object({
+    enforce_admins                  = optional(bool)
+    allows_deletions                = optional(bool)
+    allows_force_pushes             = optional(bool)
+    require_signed_commits          = optional(bool)
+    required_linear_history         = optional(bool)
+    require_conversation_resolution = optional(bool)
+    push_restrictions               = optional(list(string))
+    required_status_enabled         = optional(bool)
+    required_status_checks = optional(object({
+      strict   = optional(bool)
+      contexts = optional(list(string))
+    }))
+    required_pull_request_enabled = optional(bool)
+    required_pull_request_reviews = optional(object({
+      dismiss_stale_reviews           = optional(bool)
+      restrict_dismissals             = optional(bool)
+      dismissal_restrictions          = optional(list(string))
+      require_code_owner_reviews      = optional(bool)
+      required_approving_review_count = optional(number)
+    }))
+  })
+  default     = {} # See defaults in locals.tf
+  description = "Default branch protection settings."
+}
+
+variable "branch_protection" {
+  type = map(object({
+    enforce_admins                  = optional(bool)
+    allows_deletions                = optional(bool)
+    allows_force_pushes             = optional(bool)
+    require_signed_commits          = optional(bool)
+    required_linear_history         = optional(bool)
+    require_conversation_resolution = optional(bool)
+    push_restrictions               = optional(list(string))
+    required_status_enabled         = optional(bool)
+    required_status_checks = optional(object({
+      strict   = optional(bool)
+      contexts = optional(list(string))
+    }))
+    required_pull_request_enabled = optional(bool)
+    required_pull_request_reviews = optional(object({
+      dismiss_stale_reviews           = optional(bool)
+      restrict_dismissals             = optional(bool)
+      dismissal_restrictions          = optional(list(string))
+      require_code_owner_reviews      = optional(bool)
+      required_approving_review_count = optional(number)
+    }))
+  }))
+  default     = null # See defaults in locals.tf
+  description = "Branch protection settings. Use to set protection rules for branches different to default branch."
 }
