@@ -1,5 +1,6 @@
 provider "github" {
-  
+  owner = "abbe-org"
+  token = "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"
 }
 
 terraform {

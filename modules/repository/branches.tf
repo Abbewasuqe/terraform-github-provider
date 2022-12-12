@@ -9,6 +9,7 @@ resource "github_branch_default" "this" {
 
 resource "github_branch" "this" {
   for_each = toset(var.branches)
+  
 
   repository = github_repository.this.name
   branch     = each.value
