@@ -1,5 +1,4 @@
 provider "github" {
-  
 }
 
 terraform {

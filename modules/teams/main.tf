@@ -9,34 +9,51 @@ resource "github_team" "this" {
   ldap_dn = try(var.ldap_group_dn, null)
 }
 
-locals {
-  members = [
-    for member in var.members : {
-      username = member
-      role     = "member"
-    }
-  ]
-  maintainers = [
-    for maintainer in var.maintainers : {
-      username = maintainer
-      role     = "maintainer"
-    }
-  ]
-  membership = concat(local.members, local.maintainers)
-}
+# locals {
+#   members = [
+#     for member in var.members : {
+#       username = member
+#       role     = "member"
+#     }
+#   ]
+#   maintainers = [
+#     for maintainer in var.maintainers : {
+#       username = maintainer
+#       role     = "maintainer"
+#     }
+#   ]
+#   membership = concat(local.members, local.maintainers)
+# }
+
+
+
 
 
 ###################################################
 # Membership of GitHub Organization Team
 ###################################################
 
-resource "github_team_membership" "this" {
-  for_each = {
-    for member in local.membership :
-    member.username => member
-  }
+# resource "github_team_membership" "this" {
+#   for_each = {
+#     for member in local.membership :
+#     member.username => member
+#   }
 
-  team_id  = github_team.this.id
+#   team_id = github_team.this.id
+#   username = each.value.username
+#   role = each.value.role
+# }
+resource "github_team_membership" "this" {
+  for_each = var.members
+  team_id = github_team.this.id
   username = each.key
-  role     = each.value.role
+  role = each.value.role
 }
+
+# resource "github_team_membership" "this" {
+#   for_each = { for member in var.members : member.username => member }
+
+#   team_id = github_team.this.id
+#   username = each.key
+#   role = each.value.role
+# }

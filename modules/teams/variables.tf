@@ -39,9 +39,17 @@ variable "maintainers" {
   default     = []
 }
 
+# variable "members" {
+#   description = "(Optional) A list of usernames to add users as `member` role. When applied, the user will become a member of the team."
+#   type        = set(string)
+#   default     = []
+# }
+
+
+
+
 variable "members" {
-  description = "(Optional) A list of usernames to add users as `member` role. When applied, the user will become a member of the team."
-  type        = set(string)
-  default     = []
+  type = map(map(string))
+  default = {}
 }
 

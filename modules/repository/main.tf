@@ -5,7 +5,7 @@ resource "github_repository" "this" {
   visibility         = var.visibility
   archived           = var.archived
   archive_on_destroy = var.archive_on_destroy
-
+  topics             = var.topics
   auto_init          = try(var.template.init_readme, true)
 
 

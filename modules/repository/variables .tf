@@ -207,96 +207,6 @@ variable "require_signed_commits" {
   description = "Boolean, setting this to true requires all commits to be signed with GPG."
 }
 
-# variable "branch_protections" {
-#   type = list(object({
-#     pattern                 = string,
-#     enforce_admins         = optional(bool),
-#     require_signed_commits = optional(bool),
-#     required_linear_history = optional(bool),
-#     required_status_checks = object({
-#       strict   = bool
-#       contexts = list(string)
-#     })
-
-#     required_pull_request_reviews = object({
-#       dismiss_stale_reviews           = optional(bool),
-#       #dismissal_users                 = list(string),
-#       #dismissal_teams                 = list(string),
-#       require_code_owner_reviews      = bool,
-#       required_approving_review_count = number // NOTE: this must be 6 or less
-#     })
-
-#     # restrictions = object({
-#     #   users = list(string),
-#     #   teams = list(string)
-#     # })
-#    }))
-
-#   description = "List of Branch Protection Objects"
-#   default     = []
-# }
-
-
-# variable "default_branch_protection_enabled" {
-#   type        = bool
-#   default     = false
-#   description = "Set to `false` if you want to disable branch protection for default branch"
-# }
-
-# variable "default_branch_protection" {
-#   type = object({
-#     enforce_admins                  = optional(bool)
-#     allows_deletions                = optional(bool)
-#     allows_force_pushes             = optional(bool)
-#     require_signed_commits          = optional(bool)
-#     required_linear_history         = optional(bool)
-#     require_conversation_resolution = optional(bool)
-#     push_restrictions               = optional(list(string))
-#     required_status_enabled         = optional(bool)
-#     required_status_checks = optional(object({
-#       strict   = optional(bool)
-#       contexts = optional(list(string))
-#     }))
-#     required_pull_request_enabled = optional(bool)
-#     required_pull_request_reviews = optional(object({
-#       dismiss_stale_reviews           = optional(bool)
-#       restrict_dismissals             = optional(bool)
-#       dismissal_restrictions          = optional(list(string))
-#       require_code_owner_reviews      = optional(bool)
-#       required_approving_review_count = optional(number)
-#     }))
-#   })
-#   default     = {} # See defaults in locals.tf
-#   description = "Default branch protection settings."
-# }
-
-# variable "branch_protection" {
-#   type = map(object({
-#     enforce_admins                  = optional(bool)
-#     allows_deletions                = optional(bool)
-#     allows_force_pushes             = optional(bool)
-#     require_signed_commits          = optional(bool)
-#     required_linear_history         = optional(bool)
-#     require_conversation_resolution = optional(bool)
-#     push_restrictions               = optional(list(string))
-#     required_status_enabled         = optional(bool)
-#     required_status_checks = optional(object({
-#       strict   = optional(bool)
-#       contexts = optional(list(string))
-#     }))
-#     required_pull_request_enabled = optional(bool)
-#     required_pull_request_reviews = optional(object({
-#       dismiss_stale_reviews           = optional(bool)
-#       restrict_dismissals             = optional(bool)
-#       dismissal_restrictions          = optional(list(string))
-#       require_code_owner_reviews      = optional(bool)
-#       required_approving_review_count = optional(number)
-#     }))
-#   }))
-#   default     = null # See defaults in locals.tf
-#   description = "Branch protection settings. Use to set protection rules for branches different to default branch."
-# }
-
 variable "branch_protection" {
   type = map(object({
     enforce_admins                  = optional(bool)
@@ -305,5 +215,45 @@ variable "branch_protection" {
     require_signed_commits          = optional(bool)
     required_linear_history         = optional(bool)
     require_conversation_resolution = optional(bool)
+
+    required_status_checks = optional(object({
+      strict = optional(bool)
+      contexts = list(string)
+    }))
+
   }))
+}
+
+variable "autolink_references" {
+  description = "(Optional) Configuring autolink references. For details please check: https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_autolink_reference"
+  type = list(object({
+    key_prefix          = string
+    target_url_template = string
+    #is_alphanumeric = bool
+  }))
+
+  # Example:
+  # autolink_references = [
+  #   {
+  #     key_prefix          = "TICKET-"
+  #     target_url_template = "https://hello.there/TICKET?query=<num>"
+  #   }
+  # ]
+
+  default = []
+}
+
+variable "default_topics" {
+  type = list(string)
+  default = []
+}
+
+variable "default_autolink_references" {
+  type = list(string)
+  default = []
+}
+
+variable "default_branch_protections" {
+  type = map
+  default = {}
 }

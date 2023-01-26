@@ -127,6 +127,14 @@ resource "github_branch_protection" "this" {
   required_linear_history         = each.value["required_linear_history"]
   require_conversation_resolution = each.value["require_conversation_resolution"]
 
-  
+  dynamic "required_status_checks" {
+    for_each = each.value.required_status_checks == null ? [] : [each.value.required_status_checks]
+
+    content {
+      strict   = required_status_checks.value.strict
+      contexts = required_status_checks.value.contexts
+    }
+  }
+
   }
 

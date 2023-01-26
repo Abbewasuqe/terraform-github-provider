@@ -1,23 +1,21 @@
-# module "team" {
-#     source = "./modules/org-team"
-#     name = "mama"
-#     maintainers = [
-#         "abbewasuqe",
-#         "abbewasuqe1"
-#     ]
-# }
-
-# module "team-one" {
-#     source = "./modules/org-team"
-#     name = "kaka"
-#     maintainers = ["abbewasuqe"]
-# }
-
-# module "team-supa" {
-#     source = "./modules/org-team"
-#     name = "supa"
-#     maintainers = [
-#         "abbewasuqe",
-#         "abbewasuqe1"
-#         ]
-# }
+variable "teams" {
+  default = {
+    example_team = {
+      name = "example_team"
+      members = {
+        "example_user" = {
+          username = "example_user"
+          role = "member"
+        },
+        "example_user_1" = {
+          username = "example_user_1"
+          role = "maintainer"
+        },
+        "example_user_2" = {
+          username = "example_user_2"
+          role = "maintainer"
+        }
+      }
+    },
+  }
+}
