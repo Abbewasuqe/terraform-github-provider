@@ -7,7 +7,7 @@ variable "repositories_example_one" {
     "master" = {
       required_linear_history = true
     }
-}
+    }
     repositories = {
       one = {
         name = "one"

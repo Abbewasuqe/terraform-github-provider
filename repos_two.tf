@@ -1,15 +1,13 @@
 variable "repositories_two_example" {
   default = {
-    default_branch_protections = [
-    {
-      pattern = "main"
-      required_linear_history = true
-    },
-    {
-      pattern = "master"
+    branch_protections = {
+    "main" = {
       required_linear_history = true
     }
-    ]
+    "master" = {
+      required_linear_history = true
+    }
+    }
     default_autolink_references = []
     repositories = {
       three = {
