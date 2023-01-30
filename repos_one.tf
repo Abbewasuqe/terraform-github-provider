@@ -1,15 +1,13 @@
 variable "repositories_example_one" {
   default = {
-    default_topics = ["topics"]
-    default_branch_protections = {
-      main = {
-        enforce_admins = true
-      },
-      master = {
-        enforce_admins = false
-        required_linear_history = true
-      }
+    branch_protections = {
+    "main" = {
+      required_linear_history = true
     }
+    "master" = {
+      required_linear_history = true
+    }
+}
     repositories = {
       one = {
         name = "one"
@@ -21,6 +19,16 @@ variable "repositories_example_one" {
         description = "two"
         default_branch = "master"
         topics = ["example"]
+        branch_protections = [
+          {
+            pattern = "main"
+            required_linear_history = true
+          },
+          {
+            pattern = "master"
+            required_linear_history = true
+          }
+        ]
       }
     }
   }

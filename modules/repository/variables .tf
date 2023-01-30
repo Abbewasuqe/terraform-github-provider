@@ -254,6 +254,9 @@ variable "default_autolink_references" {
 }
 
 variable "default_branch_protections" {
-  type = map
-  default = {}
+  type = list(map(object({
+    pattern = string
+    required_linear_history = bool
+  })))
+  default = []
 }

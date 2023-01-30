@@ -1,14 +1,15 @@
 variable "repositories_three_example" {
   default = {
-    default_branch_protections = {
-      main = {
-        enforce_admins = true
-      },
-      master = {
-        enforce_admins = false
-        required_linear_history = true
-      }
+    default_branch_protections = [
+    {
+      pattern = "main"
+      required_linear_history = true
+    },
+    {
+      pattern = "master"
+      required_linear_history = true
     }
+    ]
     repositories = {
       five = {
         name = "five"

@@ -18,7 +18,7 @@ locals {
         ),
         branch_protection = merge(
           try(repository_group.default_branch_protections, {}),
-          try(repository.branch_protection, {}),
+          try(repository.branch_protections, {}),
         ),
         resource_name = key
       })
@@ -40,14 +40,5 @@ module "repository" {
   visibility = try(each.value.visibility, "public")
   topics = try(each.value.topics, [])
   autolink_references = each.value.autolink_references
-  branch_protection = try(each.value.branch_protection, [])
+  branch_protection = try(each.value.branch_protection, {})
 }
-
-
-
-# variable "default_branch_protections" {
-#   type = list(string)
-#   default = []
-# }
-
-
